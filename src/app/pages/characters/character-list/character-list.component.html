@@ -1,25 +1,23 @@
+<div class="row mt-5">
+  <div class="col-sm-12">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container text-center">
+        <h1 class="display-7">Personagens marvel v.0.0.1</h1>
+        <p class="lead">App: HTML5, CSS3, SASS, BOOTSTRAP e ANGULAR 8</p>
+        <a href="http://marvel.com\">Data provided by Marvel. © 2019 MARVEL</a> <br>
+        <a href="http://github.com/felipet66">Github</a>
+      </div>
+    </div>  
+  </div>
+</div>
 <div class="row">
-  <div class="col-md-3">
-    <div class="card">
-      <img class="card-img-top" src="http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0.jpg">
+  <div class="col-sm-4 mb-3" *ngFor="let character of results.results">
+    <div class="card bg-light">
+      <img class="card-img-top" [src]="character.thumbnail.path + '.' + character.thumbnail.extension">
       <div class="card-body">
-        Hulk
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card">
-      <img class="card-img-top" src="http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0.jpg">
-      <div class="card-body">
-        Hulk
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3">
-    <div class="card">
-      <img class="card-img-top" src="http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0.jpg">
-      <div class="card-body">
-        Hulk
+        <h2 class="card-title">{{ character.name }}</h2>
+        <p class="card-text">{{character.modified | date }}</p>
+        <a href=""></a>
       </div>
     </div>
   </div>

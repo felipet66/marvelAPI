@@ -1,26 +1,45 @@
 import { BaseResourceModel } from "../models/base-resource.model";
 
 import { Injector } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import { Observable, throwError } from "rxjs";
 import { map, catchError } from "rxjs/operators";
 
+import * as Crypto from 'crypto-js';
 
 export abstract class BaseResourceService<T extends BaseResourceModel> {
 
   protected http: HttpClient;
-
+  protected PRIV_KEY = 'f1194559f355b820145265c54f20201ad0da27b1';
+  protected PUBLIC_KEY = "bc6cab3e320a64226fbe7d20ee0af241";
+  protected ts = new Date().getTime() + '';
+  protected hash = Crypto.MD5(this.ts + this.PRIV_KEY + this.PUBLIC_KEY);
+  public httpOptions = {
+    headers: new HttpHeaders({
+      'ts': this.ts,
+      'apikey':  this.PRIV_KEY,
+      'hash': this.hash
+    })
+  };
+  public params = `?apikey=${this.PRIV_KEY}&ts=${this.ts}&hash=${this.hash}`
+  public httpHeaders = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  }
   constructor(
     protected apiPath: string, 
     protected injector: Injector, 
     protected jsonDataToResourceFn: (jsonData: any) => T
   ){
-    this.http = injector.get(HttpClient);    
+    this.http = injector.get(HttpClient);
   }
 
   getAll(): Observable<T[]> {
-    return this.http.get(this.apiPath).pipe(
+    return this.http.get(this.apiPath + this.params, this.httpHeaders, 
+        
+      ).pipe(
       map(this.jsonDataToResources.bind(this)),
       catchError(this.handleError)
     )
