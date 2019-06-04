@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Marvel API
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="welcome-card" *ngFor="let character of results.results">
+      <ion-img [src]="character.thumbnail.path + '.' + character.thumbnail.extension"></ion-img>
+      <ion-card-header>
+        <ion-card-subtitle>{{ character.name }}</ion-card-subtitle>
+        <ion-card-title>{{character.modified | date }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>Teste Fixed</p>
+      </ion-card-content>
+    </ion-card>
+</ion-content>
